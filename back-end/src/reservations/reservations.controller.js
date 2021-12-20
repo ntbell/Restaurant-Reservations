@@ -11,30 +11,43 @@ async function idExists(req, res, next) {
   next({ status: 404, message: `Reservation 'reservation_id': ${reservation_id} cannot be found` });
 }
 
-async function errorConditions(req, res, next) {
+async function dateTimeConditions(req, res, next) {
   const date = req.body.data.reservation_date;
   const today = getToday();
 
   //if reservation date is a tuesday -- restaurant closed tuesdays
   //ToDo: TEST: .getDay() might not be returning the correct day
   const day = new Date(date).getDay();
-  if(day === 1) {
+  if (day === 1) {
     next({ status: 400, message: "Restaurant is closed on Tuesdays." });
-  }
-  
-  //if reservation date is in the past
-  const dateArray = date.split("-");
-  const todayArray = today.split("-");
-  for(let index in dateArray) {
-    if(todayArray[index] < dateArray[index]) {
-      return next();
-    } else if(todayArray[index] > dateArray[index]) {
-      next({ status: 400, message: "Reservations must be made for the future." });
-    }
   }
 
   //ToDo: Check time constraints if same-day
+  const time = req.body.data.reservation_time;
+  const currTime = getTime();
 
+  if (time < "10:30") {
+    next({ status: 400, message: "Cannot make reservations before 10:30a." });
+
+  } else if (time > "21:30") {
+    next({ status: 400, message: "Cannot make reservations after 9:30p." });
+
+  } else if (currTime <= time) {
+
+    //if reservation date is in the past or same-day
+    const dateArray = date.split("-");
+    const todayArray = today.split("-");
+
+    for (let index in dateArray) {
+      if (todayArray[index] < dateArray[index]) {
+        return next();
+
+      } else if (todayArray[index] >= dateArray[index]) {
+        next({ status: 400, message: "Reservations must be made for the future." });
+
+      }
+    }
+  }
 
   return next();
 }
@@ -91,20 +104,20 @@ async function validateFields(req, res, next) {
   if (people <= 0 || isNaN(people)) {
     message = "people must be a number greater than 0";
 
-  } else if(formattedDate.length !== 8) {
+  } else if (formattedDate.length !== 8) {
     message = "reservation_date must be 8 digits formatted yyyy-mm-dd.";
 
-  } else if(formattedTime.length !== 4 && formattedTime.length !== 6) {
+  } else if (formattedTime.length !== 4 && formattedTime.length !== 6) {
     message = "reservation_time must be 4 or 6 digits formatted xx:xx or xx:xx:xx";
 
-  } else if(isNaN(formattedTime)) {
+  } else if (isNaN(formattedTime)) {
     message = "reservation_time must be a number";
 
-  } else if(isNaN(formattedDate)) {
+  } else if (isNaN(formattedDate)) {
     message = "reservation_date must be a number";
-    
+
   } else {
-    
+
     return next();
   }
 
@@ -143,13 +156,21 @@ async function list(req, res) {
 function getToday() {
   let yourDate = new Date();
   const offset = yourDate.getTimezoneOffset();
-  yourDate = new Date(yourDate.getTime() - (offset*60*1000));
+  yourDate = new Date(yourDate.getTime() - (offset * 60 * 1000));
   return yourDate.toISOString().split('T')[0];
+}
+
+function getTime() {
+  const date = new Date();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  //const seconds = date.getSeconds();
+  return `${hours}:${minutes}`;
 }
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  create: [asyncErrorBoundary(isFieldEmpty), asyncErrorBoundary(validateFields), asyncErrorBoundary(errorConditions), asyncErrorBoundary(create)],
+  create: [asyncErrorBoundary(isFieldEmpty), asyncErrorBoundary(validateFields), asyncErrorBoundary(dateTimeConditions), asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(idExists), asyncErrorBoundary(read)],
   update: [asyncErrorBoundary(idExists), asyncErrorBoundary(update)],
   delete: [asyncErrorBoundary(idExists), asyncErrorBoundary(destroy)],
