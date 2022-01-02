@@ -24,6 +24,7 @@ async function dateTimeConditions(req, res, next) {
   //ToDo: Condense code
   const time = req.body.data.reservation_time;
   const currTime = getTime();
+  console.log("0");
 
   if (time < "10:30") {
     next({ status: 400, message: "Cannot make reservations before 10:30a." });
@@ -31,40 +32,30 @@ async function dateTimeConditions(req, res, next) {
   } else if (time > "21:30") {
     next({ status: 400, message: "Cannot make reservations after 9:30p." });
 
-  } else if (currTime >= time) {
-    //ToDo: Fix time errors for date = today
-
-    //if reservation date is in the past or same-day
-    const dateArray = date.split("-");
-    const todayArray = today.split("-");
-
-    for (let index in dateArray) {
-      if (todayArray[index] < dateArray[index]) {
-        return next();
-
-      } else if (todayArray[index] >= dateArray[index]) {
-        next({ status: 400, message: "Reservations must be made for the future." });
-
-      }
-    }
   } else {
-
-    //if reservation date is in the past
     const dateArray = date.split("-");
     const todayArray = today.split("-");
+    console.log("Reservation date: " + dateArray);
+    console.log("Todays date: " + todayArray);
+    console.log("Current time: " + currTime);
+    console.log("Reservation time: "+ time);
 
-    for (let index in dateArray) {
-      if (todayArray[index] < dateArray[index]) {
+    //ToDo: Better way to test array equality?
+    if(todayArray[0] == dateArray[0] && todayArray[1] == dateArray[1] && todayArray[2] == dateArray[2] && currTime >= time) {
+      next({ status: 400, message: "Reservations must be made for the future." });
+    }
+
+    for(let index in dateArray) {
+      if(todayArray[index] < dateArray[index]) {
+        console.log("1");
         return next();
-
-      //It's okay if the date is the same because time is in future.
-      } else if (todayArray[index] > dateArray[index]) {
+      } else if(todayArray[index] > dateArray[index]) {
+        console.log("2");
         next({ status: 400, message: "Reservations must be made for the future." });
-
       }
     }
   }
-
+  console.log("3");
   return next();
 }
 
