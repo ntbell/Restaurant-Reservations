@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { createReservation } from "../utils/api";
+import { createTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import ReservationForm from "./ReservationForm";
-//REFERENCE OrderCreate.js in starter-grub-dash-front-end-main
+import TableForm from "./TableForm";
 
-function ReservationCreate({ reservation, setReservation, onSubmit }) {
+function TableCreate({ table, setTable, onSubmit }) {
     const history = useHistory();
     const [error, setError] = useState(null);
 
-    function submitHandler(reservation) {
+    function submitHandler(table) {
         setError(null);
-        reservation.people = parseInt(reservation.people);
-        createReservation(reservation).then(onSubmit).catch(setError);
+        table.capacity = parseInt(table.capacity);
+        createTable(table).then(onSubmit).catch(setError);
     }
 
     function onCancel() {
@@ -22,7 +21,7 @@ function ReservationCreate({ reservation, setReservation, onSubmit }) {
     return (
         <div>
             <ErrorAlert error={error} />
-            <ReservationForm reservation={reservation} setReservation={setReservation} onSubmit={submitHandler}>
+            <TableForm table={table} setTable={setTable} onSubmit={submitHandler}>
                 <div>
                     <button type="button" onClick={onCancel}>
                         <span className="oi oi-x" /> Cancel
@@ -33,9 +32,9 @@ function ReservationCreate({ reservation, setReservation, onSubmit }) {
                         <span className="oi oi-check" /> Submit
                     </button>
                 </div>
-            </ReservationForm>
+            </TableForm>
         </div>
     );
 }
 
-export default ReservationCreate;
+export default TableCreate;

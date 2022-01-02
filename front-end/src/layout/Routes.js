@@ -4,18 +4,25 @@ import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
 import ReservationCreate from "../reservations/ReservationCreate";
+import TableCreate from "../tables/TableCreate";
+import SeatReservation from "../reservations/SeatReservation";
 import { today } from "../utils/date-time";
 import { useLocation } from 'react-router-dom';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
-const initialState = {
+const initialReservation = {
   first_name: "",
   last_name: "",
   mobile_number: "",
   reservation_date: "",
   reservation_time: "",
   people: 0,
+};
+
+const initialTable = {
+  table_name: "",
+  capacity: 0,
 };
 
 /**
@@ -30,13 +37,19 @@ function Routes() {
   let query = useQuery();
   const date = query.get("date") || today();
 
-
   const history = useHistory();
-  const [reservation, setReservation] = useState({ ...initialState });
+  const [reservation, setReservation] = useState({ ...initialReservation });
+  const [table, setTable] = useState({ ...initialTable });
 
-  function onSubmit(newReservation) {
-    setReservation({ ...initialState });
-    history.push(`/dashboard?date=${newReservation.reservation_date}`);
+  //ToDo: Test to see if broken after implementing tables/new path
+  function onSubmit(response) {
+    if (response.reservation_date) {
+      history.push(`/dashboard?date=${reservation.reservation_date}`);
+    } else {
+      history.push("/dashboard");
+    }
+    setTable({ ...initialTable });
+    setReservation({ ...initialReservation });
   }
 
   return (
@@ -52,6 +65,12 @@ function Routes() {
       </Route>
       <Route path="/dashboard">
         <Dashboard date={date} />
+      </Route>
+      <Route path="/tables/new">
+        <TableCreate table={table} setTable={setTable} onSubmit={onSubmit} />
+      </Route>
+      <Route path="/reservations/:reservation_id/seat">
+        <SeatReservation table={table} />
       </Route>
       <Route>
         <NotFound />

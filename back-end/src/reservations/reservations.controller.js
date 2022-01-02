@@ -16,13 +16,12 @@ async function dateTimeConditions(req, res, next) {
   const today = getToday();
 
   //if reservation date is a tuesday -- restaurant closed tuesdays
-  //ToDo: TEST: .getDay() might not be returning the correct day
   const day = new Date(date).getDay();
   if (day === 1) {
     next({ status: 400, message: "Restaurant is closed on Tuesdays." });
   }
 
-  //ToDo: Check time constraints if same-day
+  //ToDo: Condense code
   const time = req.body.data.reservation_time;
   const currTime = getTime();
 
@@ -32,7 +31,8 @@ async function dateTimeConditions(req, res, next) {
   } else if (time > "21:30") {
     next({ status: 400, message: "Cannot make reservations after 9:30p." });
 
-  } else if (currTime <= time) {
+  } else if (currTime >= time) {
+    //ToDo: Fix time errors for date = today
 
     //if reservation date is in the past or same-day
     const dateArray = date.split("-");
@@ -43,6 +43,22 @@ async function dateTimeConditions(req, res, next) {
         return next();
 
       } else if (todayArray[index] >= dateArray[index]) {
+        next({ status: 400, message: "Reservations must be made for the future." });
+
+      }
+    }
+  } else {
+
+    //if reservation date is in the past
+    const dateArray = date.split("-");
+    const todayArray = today.split("-");
+
+    for (let index in dateArray) {
+      if (todayArray[index] < dateArray[index]) {
+        return next();
+
+      //It's okay if the date is the same because time is in future.
+      } else if (todayArray[index] > dateArray[index]) {
         next({ status: 400, message: "Reservations must be made for the future." });
 
       }
@@ -93,15 +109,11 @@ async function isFieldEmpty(req, res, next) {
 
 async function validateFields(req, res, next) {
   const reservation = req.body.data;
-  const people = Number(reservation.people);
   const formattedDate = reservation["reservation_date"].replace(/-/g, "").trim();
   const formattedTime = reservation["reservation_time"].replace(/:/g, "").trim();
   let message;
 
-  //HTTP request always sends input type="number" as string.  
-  //test:1:backend fails because the test expects people="2" to fail, but this is exactly what the HTTP request sends from the front-end
-  //Back-end tests pass if isNaN(people) is replaced with typeof(people) == "string"
-  if (people <= 0 || isNaN(people)) {
+  if (reservation.people <= 0 || typeof(reservation.people) !== "number") {
     message = "people must be a number greater than 0";
 
   } else if (formattedDate.length !== 8) {
@@ -126,9 +138,6 @@ async function validateFields(req, res, next) {
 
 async function create(req, res, next) {
   const newReservation = req.body.data;
-  //Need to cast string to integer
-  //See above note about failing test for test:1:backend
-  newReservation.people = parseInt(newReservation.people);
   res.status(201).json({ data: await service.create(newReservation) });
 }
 
@@ -138,8 +147,6 @@ async function read(req, res) {
 
 async function update() {
   const reservation_id = req.params.reservation_id;
-
-
 }
 
 async function destroy() {
