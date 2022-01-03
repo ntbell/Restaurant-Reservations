@@ -15,7 +15,6 @@ router.route("/")
 
 router.route("/:reservation_id")
     .get(controller.read)
-    .delete(controller.delete)
     .all(methodNotAllowed);
 
 router.route("/:reservation_id/status")
