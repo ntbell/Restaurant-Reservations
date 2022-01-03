@@ -10,7 +10,7 @@ import TablesDisplay from "./TablesDisplay";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
-function Dashboard({ date, table }) {
+function Dashboard({ date, table, onChanges }) {
   const [reservations, setReservations] = useState([]);
   const [tables, setTables] = useState([]);
   const [loadError, setLoadError] = useState(null);
@@ -38,7 +38,7 @@ function Dashboard({ date, table }) {
       <div className="d-md-flex flex-column mb-3">
         <h4 className="mb-0">Reservations for date: {date}</h4>
         {reservations ? <ReservationsDisplay reservations={reservations} /> : null}
-        {tables ? <TablesDisplay tables={tables} /> : null}
+        {tables ? <TablesDisplay tables={tables} loadDashboard={loadDashboard} setLoadError={setLoadError} /> : null}
       </div>
     </main>
   );

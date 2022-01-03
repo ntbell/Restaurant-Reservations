@@ -108,12 +108,39 @@ export async function listTables(signal) {
   return await fetchJson(url, options, table);
 }
 
+//Updates reservation status to "seated"
+//AND
+//Attaches reservation_id to table
 export async function seatReservation(reservation_id, table_id) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
   const options = {
     method: "PUT",
     body: JSON.stringify({ data: { reservation_id } }),
     headers,
+  };
+  return await fetchJson(url, options, {});
+}
+
+//Updates the reservation status
+export async function updateReservationStatus(reservation_id, newStatus, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+  const options = {
+    method: "PUT",
+    body: JSON.stringify({ data: { status: newStatus }}),
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options, {});
+}
+
+//Sets table's reservation_id to null
+//Updates reservation status to "finished"
+export async function unseatReservation(table_id, signal) {
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`;
+  const options = {
+    method: "DELETE",
+    headers,
+    signal,
   };
   return await fetchJson(url, options, {});
 }

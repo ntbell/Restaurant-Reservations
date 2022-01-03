@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationForm from "./ReservationForm";
-//REFERENCE OrderCreate.js in starter-grub-dash-front-end-main
 
 function ReservationCreate({ reservation, setReservation, onSubmit }) {
     const history = useHistory();
@@ -12,6 +11,7 @@ function ReservationCreate({ reservation, setReservation, onSubmit }) {
     function submitHandler(reservation) {
         setError(null);
         reservation.people = parseInt(reservation.people);
+        console.log(reservation);
         createReservation(reservation).then(onSubmit).catch(setError);
     }
 

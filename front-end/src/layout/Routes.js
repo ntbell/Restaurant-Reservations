@@ -18,6 +18,7 @@ const initialReservation = {
   reservation_date: "",
   reservation_time: "",
   people: 0,
+  status: "booked",
 };
 
 const initialTable = {
@@ -64,13 +65,13 @@ function Routes() {
         <Redirect to={"/dashboard"} />
       </Route>
       <Route path="/dashboard">
-        <Dashboard date={date} />
+        <Dashboard date={date} table={table} />
       </Route>
       <Route path="/tables/new">
         <TableCreate table={table} setTable={setTable} onSubmit={onSubmit} />
       </Route>
       <Route path="/reservations/:reservation_id/seat">
-        <SeatReservation table={table} />
+        <SeatReservation />
       </Route>
       <Route>
         <NotFound />

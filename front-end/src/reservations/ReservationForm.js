@@ -8,6 +8,7 @@ function ReservationForm({
         reservation_date: "",
         reservation_time: "",
         people: 0,
+        status: "booked",
     },
     setReservation,
     onSubmit,

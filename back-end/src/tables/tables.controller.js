@@ -91,6 +91,8 @@ async function validateSeating(req, res, next) {
     message = "Table does not have sufficient capacity.";
   } else if (table.reservation_id !== null) {
     message = "Table is already occupied.";
+  } else if (reservation.status === "seated") {
+    message = "Reservation is already seated.";
   }
 
   if (message) {
@@ -101,16 +103,40 @@ async function validateSeating(req, res, next) {
 }
 
 async function update(req, res) {
-  //Make sure that the reservation_id is getting updated on dbeaver
   const newTable = {
     ...res.locals.table,
     ...req.body.data,
   }
+  const newReservation = {
+    ...res.locals.reservation,
+    status: "seated",
+  }
+  await service.updateReservationStatus(newReservation);
   res.status(200).json({ data: await service.update(newTable) });
 }
 
+async function tableOccupied(req, res, next) {
+  if(res.locals.table.reservation_id == null) {
+    next({ status: 400, message: `table ${res.locals.table.table_id} is not occupied.`});
+  }
+  return next();
+}
+
 async function destroy(req, res) {
-  const table_id = req.params.table_id;
+  const newTable = {
+    ...res.locals.table,
+    reservation_id: null
+  }
+
+  const reservation_id = res.locals.table.reservation_id;
+  const reservation = await service.readReservation(Number(reservation_id));
+  const newReservation = {
+    ...reservation,
+    status: "finished",
+  }
+  await service.updateReservationStatus(newReservation);
+  
+  res.json({ data: await service.update(newTable) });
 }
 
 async function list(req, res) {
@@ -122,5 +148,5 @@ module.exports = {
   create: [asyncErrorBoundary(isFieldEmpty), asyncErrorBoundary(validateFields), asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(idExists), asyncErrorBoundary(read)],
   update: [asyncErrorBoundary(idExists), asyncErrorBoundary(reservationIdExists), asyncErrorBoundary(validateSeating), asyncErrorBoundary(update)],
-  delete: [asyncErrorBoundary(idExists), asyncErrorBoundary(destroy)],
+  delete: [asyncErrorBoundary(idExists), asyncErrorBoundary(tableOccupied), asyncErrorBoundary(destroy)],
 }

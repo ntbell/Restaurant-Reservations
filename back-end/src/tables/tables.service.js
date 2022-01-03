@@ -28,8 +28,22 @@ async function update(newTable) {
         .then((data) => data[0]);
 }
 
-async function destroy() {
+async function updateReservationStatus(newReservation) {
+    return knex("reservations")
+        .select("*")
+        .where({ reservation_id: newReservation.reservation_id })
+        .update(newReservation)
+        .then((data) => data[0]);
+}
 
+async function destroy(table_id) {
+    /*
+    //Delete in controller just uses service.update
+    return knex("tables")
+        .select("reservation_id")
+        .where({ table_id })
+        .del()
+        */
 }
 
 async function list() {
@@ -43,4 +57,5 @@ module.exports = {
     delete: destroy,
     list,
     readReservation,
+    updateReservationStatus,
 }

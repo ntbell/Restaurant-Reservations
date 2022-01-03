@@ -3,6 +3,7 @@ import { useHistory, useParams } from "react-router-dom"
 import { listTables, seatReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 
+
 function SeatReservation() {
     const history = useHistory();
     const { reservation_id } = useParams();
@@ -27,17 +28,8 @@ function SeatReservation() {
 
     function submitHandler(event) {
         event.preventDefault();
-        //ToDo: Implement the "seating at table" action
-
-        //Use seatReservation from api
-        //Need to change name of this component?
-
-        //Assign the table to the reservation
-        //PUT to /tables/:table_id/seat/ in order to save the table assignment
-        //The body of the request must be { data: { reservation_id: x } } where X is the reservation_id of the reservation being seated
-        console.log("table id: " + tableId);
-        console.log("reservation id: " + reservation_id);
         setError(null);
+        
         seatReservation(reservation_id, tableId)
             .then(() => history.push("/dashboard"))
             .catch(setError)

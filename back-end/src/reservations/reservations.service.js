@@ -13,11 +13,11 @@ async function read(reservation_id) {
         .first();
 }
 
-async function update(reservation_id) {
+async function update(newReservation) {
     return knex("reservations")
         .select("*")
-        .where({ "reservation_id": newReservation.reservation_id })
-        .update(newReservation)
+        .where({ reservation_id: newReservation.reservation_id })
+        .update(newReservation, "status")
         .then((data) => data[0]);
 }
 
@@ -27,7 +27,8 @@ async function destroy(reservation_id) {
 
 async function list(reservation_date) {
     return knex("reservations")
-        .where({ reservation_date })
+        .whereNot("status", "finished")
+        .andWhere({ reservation_date })
         .orderBy("reservation_time", "asc");
 }
 

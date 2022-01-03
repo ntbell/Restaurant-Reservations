@@ -24,7 +24,6 @@ async function dateTimeConditions(req, res, next) {
   //ToDo: Condense code
   const time = req.body.data.reservation_time;
   const currTime = getTime();
-  console.log("0");
 
   if (time < "10:30") {
     next({ status: 400, message: "Cannot make reservations before 10:30a." });
@@ -35,10 +34,6 @@ async function dateTimeConditions(req, res, next) {
   } else {
     const dateArray = date.split("-");
     const todayArray = today.split("-");
-    console.log("Reservation date: " + dateArray);
-    console.log("Todays date: " + todayArray);
-    console.log("Current time: " + currTime);
-    console.log("Reservation time: "+ time);
 
     //ToDo: Better way to test array equality?
     if(todayArray[0] == dateArray[0] && todayArray[1] == dateArray[1] && todayArray[2] == dateArray[2] && currTime >= time) {
@@ -47,15 +42,12 @@ async function dateTimeConditions(req, res, next) {
 
     for(let index in dateArray) {
       if(todayArray[index] < dateArray[index]) {
-        console.log("1");
         return next();
       } else if(todayArray[index] > dateArray[index]) {
-        console.log("2");
         next({ status: 400, message: "Reservations must be made for the future." });
       }
     }
   }
-  console.log("3");
   return next();
 }
 
@@ -119,11 +111,12 @@ async function validateFields(req, res, next) {
   } else if (isNaN(formattedDate)) {
     message = "reservation_date must be a number";
 
-  } else {
+  } else if (reservation.status === "seated" || reservation.status === "finished") {
+    message = "reservation status must be initialized as 'booked', not 'seated' or 'finished.'";
 
+  } else {
     return next();
   }
-
   next({ status: 400, message: message });
 }
 
@@ -136,8 +129,36 @@ async function read(req, res) {
   res.json({ data: res.locals.reservation });
 }
 
-async function update() {
-  const reservation_id = req.params.reservation_id;
+async function checkStatus(req, res, next) {
+  const validOptions = ["booked", "seated", "finished"];
+  const reservation = res.locals.reservation;
+  let message;
+
+  if(!req.body.data || !req.body.data.status) {
+    message = "Must include a valid status.";
+  }
+
+  const status = req.body.data.status;
+
+  if (!validOptions.includes(status)) {
+    message = "Status is unknown.";
+  } else if (reservation.status === "finished") {
+    message = "Cannot update a finished reservation.";
+  }
+
+  if(message) {
+    next({ status: 400, message: message });
+  } else {
+    return next();
+  }
+}
+
+async function update(req, res) {
+  const newReservation = {
+    ...res.locals.reservation,
+    status: req.body.data.status,
+  }
+  res.json({ data: { status: await service.update(newReservation) }});
 }
 
 async function destroy() {
@@ -170,6 +191,6 @@ module.exports = {
   list: asyncErrorBoundary(list),
   create: [asyncErrorBoundary(isFieldEmpty), asyncErrorBoundary(validateFields), asyncErrorBoundary(dateTimeConditions), asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(idExists), asyncErrorBoundary(read)],
-  update: [asyncErrorBoundary(idExists), asyncErrorBoundary(update)],
+  update: [asyncErrorBoundary(idExists), asyncErrorBoundary(checkStatus), asyncErrorBoundary(update)],
   delete: [asyncErrorBoundary(idExists), asyncErrorBoundary(destroy)],
 }
