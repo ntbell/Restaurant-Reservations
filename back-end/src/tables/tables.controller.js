@@ -1,6 +1,5 @@
 const service = require("./tables.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-const { table } = require("../db/connection");
 
 async function idExists(req, res, next) {
   const table_id = req.params.table_id;
@@ -111,9 +110,7 @@ async function update(req, res) {
     ...res.locals.reservation,
     status: "seated",
   }
-  //ToDo: Fix in service with knex.transactions
-  await service.updateReservationStatus(newReservation);
-  res.status(200).json({ data: await service.update(newTable) });
+  res.status(200).json({ data: await service.update(newReservation, newTable) });
 }
 
 async function tableOccupied(req, res, next) {
@@ -135,9 +132,7 @@ async function destroy(req, res) {
     ...reservation,
     status: "finished",
   }
-  await service.updateReservationStatus(newReservation);
-  
-  res.json({ data: await service.update(newTable) });
+  res.json({ data: await service.update(newReservation, newTable) });
 }
 
 async function list(req, res) {

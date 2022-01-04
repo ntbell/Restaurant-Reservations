@@ -20,22 +20,24 @@ async function readReservation(reservation_id) {
         .first();
 }
 
-//Link with updateReservationStatus using knex.transactions
-async function update(newTable) {
-    return knex("tables")
-        .select("*")
-        .where({ table_id: newTable.table_id })
-        .update(newTable)
-        .then((data) => data[0]);
-}
-
-//Link with updateReservationStatus using knex.transactions
-async function updateReservationStatus(newReservation) {
-    return knex("reservations")
-        .select("*")
-        .where({ reservation_id: newReservation.reservation_id })
-        .update(newReservation)
-        .then((data) => data[0]);
+async function update(newReservation, newTable) {
+    return knex.transaction(function (t) {
+        return knex("reservations")
+            .transacting(t)
+            .where({ reservation_id: newReservation.reservation_id })
+            .update(newReservation)
+            .then(function () {
+                return knex("tables")
+                    .where({ table_id: newTable.table_id })
+                    .update(newTable)
+                    .then((data) => data[0])
+            })
+            .then(t.commit)
+            .catch(function (e) {
+                t.rollback();
+                throw new Error("Transaction error on update: " + e);
+            })
+    });
 }
 
 async function destroy(table_id) {
@@ -59,5 +61,4 @@ module.exports = {
     delete: destroy,
     list,
     readReservation,
-    updateReservationStatus,
 }
