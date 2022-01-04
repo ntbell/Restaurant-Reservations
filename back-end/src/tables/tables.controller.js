@@ -111,6 +111,7 @@ async function update(req, res) {
     ...res.locals.reservation,
     status: "seated",
   }
+  //ToDo: Fix in service with knex.transactions
   await service.updateReservationStatus(newReservation);
   res.status(200).json({ data: await service.update(newTable) });
 }

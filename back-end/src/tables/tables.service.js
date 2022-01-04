@@ -20,6 +20,7 @@ async function readReservation(reservation_id) {
         .first();
 }
 
+//Link with updateReservationStatus using knex.transactions
 async function update(newTable) {
     return knex("tables")
         .select("*")
@@ -28,6 +29,7 @@ async function update(newTable) {
         .then((data) => data[0]);
 }
 
+//Link with updateReservationStatus using knex.transactions
 async function updateReservationStatus(newReservation) {
     return knex("reservations")
         .select("*")

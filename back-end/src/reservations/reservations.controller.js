@@ -171,8 +171,13 @@ async function destroy() {
 
 
 async function list(req, res) {
-  const date = req.query.date;
-  res.json({ data: await service.list(date) });
+  const { date } = req.query;
+  const { mobile_number } = req.query;
+
+  date ?
+    res.json({ data: await service.list(date) })
+    :
+    res.json({ data: await service.search(mobile_number) });
 }
 
 
