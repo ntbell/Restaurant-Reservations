@@ -42,7 +42,6 @@ function Routes() {
   const [reservation, setReservation] = useState({ ...initialReservation });
   const [table, setTable] = useState({ ...initialTable });
 
-  //ToDo: Test to see if broken after implementing tables/new path
   function onSubmit(response) {
     if (response.reservation_date) {
       history.push(`/dashboard?date=${reservation.reservation_date}`);
@@ -66,6 +65,9 @@ function Routes() {
       </Route>
       <Route path="/dashboard">
         <Dashboard date={date} table={table} />
+      </Route>
+      <Route path="/search">
+        <Dashboard date={date} />
       </Route>
       <Route path="/tables/new">
         <TableCreate table={table} setTable={setTable} onSubmit={onSubmit} />

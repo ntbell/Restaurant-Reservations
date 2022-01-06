@@ -11,7 +11,6 @@ function ReservationCreate({ reservation, setReservation, onSubmit }) {
     function submitHandler(reservation) {
         setError(null);
         reservation.people = parseInt(reservation.people);
-        console.log(reservation);
         createReservation(reservation).then(onSubmit).catch(setError);
     }
 
