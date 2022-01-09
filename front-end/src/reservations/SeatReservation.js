@@ -9,7 +9,7 @@ function SeatReservation() {
     const { reservation_id } = useParams();
     const [error, setError] = useState(null);
     const [tables, setTables] = useState([]);
-    const [tableId, setTableId] = useState(1);
+    const [tableId, setTableId] = useState(1); //ToDo: What to initialize as?
 
     useEffect(loadTables, [reservation_id]);
 

@@ -7,6 +7,7 @@ import ReservationCreate from "../reservations/ReservationCreate";
 import TableCreate from "../tables/TableCreate";
 import SeatReservation from "../reservations/SeatReservation";
 import Search from "../dashboard/Search";
+import EditReservation from "../dashboard/EditReservation";
 import { today } from "../utils/date-time";
 import { useLocation } from 'react-router-dom';
 
@@ -75,6 +76,9 @@ function Routes() {
       </Route>
       <Route path="/reservations/:reservation_id/seat">
         <SeatReservation />
+      </Route>
+      <Route path="/reservations/:reservation_id/edit">
+        <EditReservation />
       </Route>
       <Route>
         <NotFound />

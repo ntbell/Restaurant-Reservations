@@ -34,6 +34,7 @@ async function destroy(reservation_id) {
 async function list(reservation_date) {
     return knex("reservations")
         .whereNot("status", "finished")
+        .andWhereNot("status", "cancelled")
         .andWhere({ reservation_date })
         .orderBy("reservation_time", "asc");
 }

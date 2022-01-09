@@ -23,7 +23,7 @@ function ReservationForm({
 
     function submitHandler(event) {
         event.preventDefault();
-        event.stopPropagation(); //what do?
+        event.stopPropagation();
         onSubmit(reservation);
     }
 
@@ -87,9 +87,9 @@ function ReservationForm({
                     id="reservation_time"
                     name="reservation_time"
                     required={true}
+                    placeholder="HH:MM"
+                    pattern="[0-9]{2}:[0-9]{2}"
                     value={reservation.reservation_time}
-                    placeholder="HH:MM:SS"
-                    pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
                     onChange={changeHandler}
                 />
             </div>

@@ -48,7 +48,7 @@ function Search() {
                 />
                 <button type="submit">Find</button>
             </form>
-            <ReservationsDisplay reservations={reservations} />
+            <ReservationsDisplay reservations={reservations} reload={loadReservations} setLoadError={setLoadError} />
         </div>
     );
 }

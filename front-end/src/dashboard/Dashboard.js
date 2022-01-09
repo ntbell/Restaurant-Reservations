@@ -45,7 +45,7 @@ function Dashboard({ date, table }) {
       <h1>Dashboard</h1>
       <div className="d-md-flex flex-column mb-3">
         <h4 className="mb-0">Reservations for date: {date}</h4>
-        <ReservationsDisplay reservations={reservations} />
+        <ReservationsDisplay reservations={reservations} reload={loadDashboard} setLoadError={setLoadError} />
         <TablesDisplay tables={tables} loadDashboard={loadDashboard} setLoadError={setLoadError} />
       </div>
     </main>

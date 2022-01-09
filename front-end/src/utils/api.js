@@ -121,6 +121,19 @@ export async function seatReservation(reservation_id, table_id) {
   return await fetchJson(url, options, {});
 }
 
+//Updates the entire reservation
+//Requires a full reservation object with all properties
+export async function updateReservation(reservation_id, reservation, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}`;
+  const options = {
+    method: "PUT",
+    body: JSON.stringify({ data: reservation }),
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options, reservation);
+}
+
 //Updates the reservation status
 export async function updateReservationStatus(reservation_id, newStatus, signal) {
   const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
@@ -139,6 +152,17 @@ export async function unseatReservation(table_id, signal) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
   const options = {
     method: "DELETE",
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options, {});
+}
+
+//Gets reservation with reservation_id
+export async function readReservation(reservation_id, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}`;
+  const options = {
+    method: "GET",
     headers,
     signal,
   };

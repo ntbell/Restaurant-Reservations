@@ -1,13 +1,17 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { updateReservationStatus } from "../utils/api";
 
-function ReservationsDisplay({ reservations }) {
+function ReservationsDisplay({ reservations, reload, setLoadError }) {
     const history = useHistory();
 
-    const handleClick = async (reservation_id) => {
-        history.push(`/reservations/${reservation_id}/seat`);
-        //This probably shouldn't update to "seated" here??
-        //await updateReservationStatus(reservation_id, "seated");
+    const askConfirmation = async (reservation) => {
+        const reservation_id = reservation.reservation_id;
+
+        if (window.confirm("Do you want to cancel this reservation? This cannot be undone.")) {
+            setLoadError(null);
+            updateReservationStatus(reservation_id, "cancelled").then(reload).catch(setLoadError);
+        }
     }
 
     return reservations.map((reservation) => (
@@ -22,15 +26,33 @@ function ReservationsDisplay({ reservations }) {
                 data-reservation-id-status={reservation.reservation_id}>
                 Status: {reservation.status}
             </p>
-            {reservation.status === "booked" ? (
+            <div className="d-flex pl-2">
+                {reservation.status === "booked" ? (
+                    <button
+                        type="button"
+                        className="btn btn-light"
+                        href={`/reservations/${reservation.reservation_id}/edit`}
+                        onClick={() => history.push(`/reservations/${reservation.reservation_id}/edit`)}>
+                        Edit
+                    </button>
+                ) : (null)}
+                {reservation.status === "booked" ? (
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        href={`/reservations/${reservation.reservation_id}/seat`}
+                        onClick={() => history.push(`/reservations/${reservation.reservation_id}/seat`)}>
+                        Seat
+                    </button>
+                ) : (null)}
                 <button
                     type="button"
-                    className="btn btn-primary pl-2"
-                    href={`/reservations/${reservation.reservation_id}/seat`}
-                    onClick={() => handleClick(reservation.reservation_id)}>
-                    Seat
+                    className="btn btn-secondary"
+                    data-reservation-id-cancel={reservation.reservation_id}
+                    onClick={() => askConfirmation(reservation)}>
+                    Cancel
                 </button>
-            ) : (null)}
+            </div>
         </div>
     ));
 }
