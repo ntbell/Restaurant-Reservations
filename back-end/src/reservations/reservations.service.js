@@ -15,7 +15,13 @@ async function read(reservation_id) {
 
 async function update(newReservation) {
     return knex("reservations")
-        .select("*")
+        .where({ reservation_id: newReservation.reservation_id })
+        .update(newReservation, "*")
+        .then((data) => data[0]);
+}
+
+async function updateStatus(newReservation) {
+    return knex("reservations")
         .where({ reservation_id: newReservation.reservation_id })
         .update(newReservation, "status")
         .then((data) => data[0]);
@@ -45,6 +51,7 @@ module.exports = {
     create,
     read,
     update,
+    updateStatus,
     delete: destroy,
     list,
     search,

@@ -23,11 +23,12 @@ async function hasBody(req, res, next) {
 
 //Validates the status of the reservation before updating
 async function checkStatus(req, res, next) {
-  const validOptions = ["booked", "seated", "finished"];
+  const validOptions = ["booked", "seated", "finished", "cancelled"];
   const reservation = res.locals.reservation;
   let message;
+
   if (!req.body.data.status) {
-    message = "Must include a valid status.";
+    message = "Status is unknown";
   }
 
   const status = req.body.data.status;
@@ -144,7 +145,7 @@ async function dateTimeConditions(req, res, next) {
 }
 
 
-async function create(req, res, next) {
+async function create(req, res) {
   const newReservation = req.body.data;
   res.status(201).json({ data: await service.create(newReservation) });
 }
@@ -158,15 +159,18 @@ async function read(req, res) {
 async function update(req, res) {
   const newReservation = {
     ...res.locals.reservation,
-    status: req.body.data.status,
+    ...req.body.data,
   }
-  res.json({ data: { status: await service.update(newReservation) } });
+  res.json({ data: await service.update(newReservation) });
 }
 
 
-async function destroy() {
-  //const reservation_id = req.params.reservation_id;
-  //Currently not implemented
+async function updateStatus(req, res) {
+  const newReservation = {
+    ...res.locals.reservation,
+    status: req.body.data.status,
+  }
+  res.json({ data: { status: await service.updateStatus(newReservation) } });
 }
 
 
@@ -202,11 +206,10 @@ function getTime() {
 }
 
 
-
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [asyncErrorBoundary(hasBody), asyncErrorBoundary(isFieldEmpty), asyncErrorBoundary(validateFields), asyncErrorBoundary(dateTimeConditions), asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(idExists), asyncErrorBoundary(read)],
-  update: [asyncErrorBoundary(idExists), asyncErrorBoundary(hasBody), asyncErrorBoundary(checkStatus), asyncErrorBoundary(update)],
-  delete: [asyncErrorBoundary(idExists), asyncErrorBoundary(destroy)],
+  update: [asyncErrorBoundary(idExists), asyncErrorBoundary(hasBody), asyncErrorBoundary(isFieldEmpty), asyncErrorBoundary(validateFields), asyncErrorBoundary(update)],
+  updateStatus: [asyncErrorBoundary(idExists), asyncErrorBoundary(hasBody), asyncErrorBoundary(checkStatus), asyncErrorBoundary(updateStatus)],
 }
