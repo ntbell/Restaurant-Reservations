@@ -6,6 +6,7 @@ import NotFound from "./NotFound";
 import ReservationCreate from "../reservations/ReservationCreate";
 import TableCreate from "../tables/TableCreate";
 import SeatReservation from "../reservations/SeatReservation";
+import Search from "../dashboard/Search";
 import { today } from "../utils/date-time";
 import { useLocation } from 'react-router-dom';
 
@@ -64,10 +65,10 @@ function Routes() {
         <Redirect to={"/dashboard"} />
       </Route>
       <Route path="/dashboard">
-        <Dashboard date={date} table={table} />
+        <Dashboard date={date} table={table} key={document.location.href} />
       </Route>
       <Route path="/search">
-        <Dashboard date={date} />
+        <Search />
       </Route>
       <Route path="/tables/new">
         <TableCreate table={table} setTable={setTable} onSubmit={onSubmit} />
