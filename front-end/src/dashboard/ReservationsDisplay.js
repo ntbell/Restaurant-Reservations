@@ -15,7 +15,7 @@ function ReservationsDisplay({ reservations, reload, setLoadError }) {
     }
 
     return reservations.map((reservation) => (
-        <div key={reservation.reservation_id} className="d-flex flex-row justify-content-between border border-dark m-3">
+        <div key={reservation.reservation_id} className="d-flex flex-row justify-content-between border border-dark rounded reservation-style m-3">
             <p className="p-2">First Name: {reservation.first_name}</p>
             <p className="p-2">Last Name: {reservation.last_name}</p>
             <p className="p-2">Mobile Number: {reservation.mobile_number}</p>

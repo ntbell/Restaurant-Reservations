@@ -18,6 +18,7 @@ function EditReservation() {
         readReservation(reservation_id, abortController.signal)
             .then(setReservation)
             .catch(setError);
+        
         return () => abortController.abort();
     }
 
@@ -26,7 +27,7 @@ function EditReservation() {
         updatedReservation.people = parseInt(updatedReservation.people);
         
         updateReservation(reservation_id, updatedReservation)
-            .then(() => history.goBack())
+            .then(() => history.push(`/dashboard?date=${updatedReservation.reservation_date}`))
             .catch(setError);
     }
 

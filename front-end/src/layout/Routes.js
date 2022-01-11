@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
@@ -37,9 +37,11 @@ const initialTable = {
  */
 function Routes() {
   //Pulls the query from the url.  ex. /dashboard?date=2021-01-01 returns 2021-01-01
-  let query = useQuery();
+  const query = useQuery();
   const date = query.get("date") || today();
 
+  //ToDo: Implement next and previous for days
+  //use utils/date-time for implementation
   const history = useHistory();
   const [reservation, setReservation] = useState({ ...initialReservation });
   const [table, setTable] = useState({ ...initialTable });

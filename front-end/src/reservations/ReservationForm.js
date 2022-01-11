@@ -25,7 +25,7 @@ function ReservationForm({
         event.preventDefault();
         event.stopPropagation();
         onSubmit(reservation);
-    }
+    }    
 
     return (
         <form onSubmit={submitHandler}>
@@ -73,9 +73,9 @@ function ReservationForm({
                     id="reservation_date"
                     name="reservation_date"
                     required={true}
-                    value={reservation.reservation_date}
                     placeholder="YYYY-MM-DD"
                     pattern="\d{4}-\d{2}-\d{2}"
+                    value={reservation.reservation_date}
                     onChange={changeHandler}
                 />
             </div>

@@ -3,6 +3,8 @@ import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationsDisplay from "./ReservationsDisplay";
 import TablesDisplay from "./TablesDisplay";
+import { previous, today, next } from "../utils/date-time";
+import { useHistory } from "react-router-dom";
 
 /**
  * Defines the dashboard page.
@@ -15,6 +17,9 @@ function Dashboard({ date, table }) {
   const [tables, setTables] = useState([]);
   const [loadError, setLoadError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const history = useHistory();
+  const previousDay = () => history.push(`/dashboard?date=${previous(date)}`);
+  const nextDay = () => history.push(`/dashboard?date=${next(date)}`);
 
   //ToDo: Seems to work, but table here is only a prop to cause refresh
   //Can I do this some other way?  Table isn't used otherwise
@@ -43,10 +48,18 @@ function Dashboard({ date, table }) {
       <ErrorAlert error={loadError} />
       {loading && <p>loading...</p>}
       <h1>Dashboard</h1>
+      <div>
+        <button onClick={previousDay}>Previous</button>
+        <button onClick={() => history.push("/dashboard")}>Today</button>
+        <button onClick={nextDay}>Next</button>
+      </div>
       <div className="d-md-flex flex-column mb-3">
         <h4 className="mb-0">Reservations for date: {date}</h4>
-        <ReservationsDisplay reservations={reservations} reload={loadDashboard} setLoadError={setLoadError} />
-        <TablesDisplay tables={tables} loadDashboard={loadDashboard} setLoadError={setLoadError} />
+        {reservations.length > 0 ? <ReservationsDisplay reservations={reservations} reload={loadDashboard} setLoadError={setLoadError} /> : <h4 className="mt-2 p-2 border border-dark rounded reservation-style text-center">No Reservations Today</h4>}
+        <h4 className="">Tables: </h4>
+        <div className="d-flex flex-row">
+          <TablesDisplay tables={tables} loadDashboard={loadDashboard} setLoadError={setLoadError} />
+        </div>
       </div>
     </main>
   );

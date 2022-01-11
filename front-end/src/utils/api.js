@@ -5,6 +5,7 @@
 import formatReservationDate from "./format-reservation-date";
 import formatReservationTime from "./format-reservation-date";
 
+
 const API_BASE_URL =
   process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
@@ -81,7 +82,7 @@ export async function listTables(signal) {
  * @returns {Promise<[reservation]>}
  *  a promise that resolves to the newly created reservation.
  */
- export async function createReservation(reservation, signal) {
+export async function createReservation(reservation, signal) {
   const url = `${API_BASE_URL}/reservations`;
   const options = {
     method: "POST",
@@ -97,7 +98,7 @@ export async function listTables(signal) {
  * @returns {Promise<[table]>}
  *  a promise that resolves to the newly created table.
  */
- export async function createTable(table, signal) {
+export async function createTable(table, signal) {
   const url = `${API_BASE_URL}/tables`;
   const options = {
     method: "POST",
@@ -139,7 +140,7 @@ export async function updateReservationStatus(reservation_id, newStatus, signal)
   const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
   const options = {
     method: "PUT",
-    body: JSON.stringify({ data: { status: newStatus }}),
+    body: JSON.stringify({ data: { status: newStatus } }),
     headers,
     signal,
   };
@@ -166,6 +167,8 @@ export async function readReservation(reservation_id, signal) {
     headers,
     signal,
   };
-  return await fetchJson(url, options, {});
+  return await fetchJson(url, options, {})
+    .then(formatReservationDate)
+    .then(formatReservationTime);
 }
 
