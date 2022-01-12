@@ -18,14 +18,14 @@ function EditReservation() {
         readReservation(reservation_id, abortController.signal)
             .then(setReservation)
             .catch(setError);
-        
+
         return () => abortController.abort();
     }
 
     function submitHandler(updatedReservation) {
         setError(null);
         updatedReservation.people = parseInt(updatedReservation.people);
-        
+
         updateReservation(reservation_id, updatedReservation)
             .then(() => history.push(`/dashboard?date=${updatedReservation.reservation_date}`))
             .catch(setError);
@@ -41,12 +41,10 @@ function EditReservation() {
             {reservation ?
                 <ReservationForm reservation={reservation} setReservation={setReservation} onSubmit={submitHandler}>
                     <div>
-                        <button type="button" onClick={onCancel}>
+                        <button type="button" className="btn btn-sm btn-secondary rounded" onClick={onCancel}>
                             <span className="oi oi-x" /> Cancel
                         </button>
-                    </div>
-                    <div>
-                        <button type="submit" >
+                        <button type="submit" className="btn btn-sm btn-primary rounded">
                             <span className="oi oi-check" /> Submit
                         </button>
                     </div>

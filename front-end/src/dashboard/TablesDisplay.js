@@ -13,21 +13,22 @@ function TablesDisplay({ tables, loadDashboard, setLoadError }) {
     }
 
     return tables.map((table) => (
-        <div key={table.table_id} className="d-flex flex-column justify-content-between border border-dark rounded table-style m-3">
-            <p className="p-1">Table Name: {table.table_name}</p>
-            <p className="p-1">Capacity: {table.capacity}</p>
-            <p className="p-1" data-table-id-status={table.table_id}>
+        <div key={table.table_id} className="d-flex flex-column justify-content-between border border-dark rounded table-style m-2">
+            <p className="p-1 h-25 text-center">Table Name: {table.table_name}</p>
+            <p className="p-1 h-25 text-center">Capacity: {table.capacity}</p>
+            <div class="divider div-transparent"></div>
+            <p className="p-1 pt-3 h-25 text-center" data-table-id-status={table.table_id}>
                 {table.reservation_id ? ("Occupied") : ("Free")}
             </p>
             {table.reservation_id ? (
               <button 
                 name="finish"
-                className="p-1"
+                className="p-1 h-25 btn btn-secondary btn-block"
                 data-table-id-finish={table.table_id}
                 onClick={() => askConfirmation(table)}>
                     Finish
                 </button>  
-            ) : (null)}
+            ) : (<div className="h-25"></div>)}
         </div>
     ));
 }

@@ -44,20 +44,28 @@ function Dashboard({ date, table }) {
   }
 
   return (
-    <main>
+    <main className="bg-light">
       <ErrorAlert error={loadError} />
       {loading && <p>loading...</p>}
-      <h1>Dashboard</h1>
-      <div>
-        <button onClick={previousDay}>Previous</button>
-        <button onClick={() => history.push("/dashboard")}>Today</button>
-        <button onClick={nextDay}>Next</button>
-      </div>
+      <h1 className="text-center"><u>Dashboard</u></h1>
       <div className="d-md-flex flex-column mb-3">
-        <h4 className="mb-0">Reservations for date: {date}</h4>
-        {reservations.length > 0 ? <ReservationsDisplay reservations={reservations} reload={loadDashboard} setLoadError={setLoadError} /> : <h4 className="mt-2 p-2 border border-dark rounded reservation-style text-center">No Reservations Today</h4>}
-        <h4 className="">Tables: </h4>
-        <div className="d-flex flex-row">
+        <h4 className=" mb-0 text-center">Reservations</h4>
+        <h3 className="text-center">{date}</h3>
+        <div className="text-center mx-2 mb-2">
+          <button className="btn btn-sm btn-info border border-dark date-buttons w-33" onClick={previousDay}>
+            <span className="oi oi-arrow-left" />
+            &nbsp;Previous
+          </button>
+          <button className="btn btn-sm btn-info border border-dark date-buttons w-33" onClick={() => history.push("/dashboard")}>
+            Today
+          </button>
+          <button className="btn btn-sm btn-info border border-dark date-buttons w-33" onClick={nextDay}>
+            Next&nbsp;
+            <span className="oi oi-arrow-right" />
+          </button>
+        </div>
+        {reservations.length > 0 ? <ReservationsDisplay reservations={reservations} reload={loadDashboard} setLoadError={setLoadError} /> : <h4 className="m-2 p-2 border border-dark rounded reservation-style text-center">No Reservations Today</h4>}
+        <div className="d-flex flex-row flex-wrap">
           <TablesDisplay tables={tables} loadDashboard={loadDashboard} setLoadError={setLoadError} />
         </div>
       </div>

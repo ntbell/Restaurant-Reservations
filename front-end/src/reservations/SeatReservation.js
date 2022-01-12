@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom"
-import { listTables, seatReservation } from "../utils/api";
+import { listTables, readReservation, seatReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import ReservationsDisplay from "../dashboard/ReservationsDisplay";
 
 
 function SeatReservation() {
@@ -10,15 +11,21 @@ function SeatReservation() {
     const [error, setError] = useState(null);
     const [tables, setTables] = useState([]);
     const [tableId, setTableId] = useState(1); //ToDo: What to initialize as?
+    const [reservation, setReservation] = useState(null);
 
-    useEffect(loadTables, [reservation_id]);
+    useEffect(loadInformation, [reservation_id]);
 
-    function loadTables() {
+    function loadInformation() {
         const abortController = new AbortController();
         setError(null);
+
+        readReservation(reservation_id, abortController.signal)
+            .then(setReservation)
+            .catch(setError);
         listTables(abortController.signal)
             .then(setTables)
             .catch(setError);
+
         return () => abortController.abort();
     }
 
@@ -42,26 +49,26 @@ function SeatReservation() {
     return (
         <div>
             <ErrorAlert error={error} />
+            <h4 className="m-2">Seating reservation: </h4>
+            {reservation ? <ReservationsDisplay reservations={[reservation]} /> : null}
             <form onSubmit={submitHandler}>
-                <label>
-                    Table number:
-                    <select name="table_id" value={tableId} onChange={changeHandler}>
+                <label className="m-2">
+                    Table number: 
+                    <select className="ml-2" name="table_id" value={tableId} onChange={changeHandler}>
                         {tables ?
                             tables.map((table) => (
                                 <option key={table.table_id} value={table.table_id}>{table.table_name} - {table.capacity}</option>
                             )) : (null)}
                     </select>
                 </label>
-                <div>
-                    <button type="button" onClick={onCancel}>
+                <div className="form-row ml-2 mt-2">
+                    <button type="button" className="btn btn-sm btn-secondary rounded" onClick={onCancel}>
                         <span className="oi oi-x" /> Cancel
                     </button>
-                </div>
-                <div>
-                    <button type="submit" >
+                    <button type="submit" className="btn btn-sm btn-primary rounded">
                         <span className="oi oi-check" /> Submit
                     </button>
-                </div>
+                </div> 
             </form>
         </div>
     );

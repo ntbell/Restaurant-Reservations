@@ -23,12 +23,10 @@ function TableCreate({ table, setTable, onSubmit }) {
             <ErrorAlert error={error} />
             <TableForm table={table} setTable={setTable} onSubmit={submitHandler}>
                 <div>
-                    <button type="button" onClick={onCancel}>
+                    <button type="button" className="btn btn-sm btn-secondary rounded" onClick={onCancel}>
                         <span className="oi oi-x" /> Cancel
                     </button>
-                </div>
-                <div>
-                    <button type="submit" >
+                    <button type="submit" className="btn btn-sm btn-primary rounded">
                         <span className="oi oi-check" /> Submit
                     </button>
                 </div>

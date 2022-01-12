@@ -38,8 +38,9 @@ function Search() {
             <ErrorAlert error={loadError} />
             {mobile_number && reservations.length === 0 ? (<h4 className="alert alert-danger text-center">No reservations found</h4>) : (null)}
             <form onSubmit={submitHandler}>
-                <label>Search: </label>
+                <label className="m-2">Search: </label>
                 <input
+                    className="search-input my-2"
                     id="mobile_number"
                     name="mobile_number"
                     placeholder="Enter a customer's phone number"

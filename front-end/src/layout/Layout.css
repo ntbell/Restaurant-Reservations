@@ -3,11 +3,61 @@
   min-width: 200px;
 }
 
+.search-input {
+  width: 250px;
+}
+
+.btn-primary, .btn-secondary, .btn-light {
+  border-radius: 0;
+}
+
 .reservation-style {
-  background-color: #9ADDDF;
+  background-color: #89ced97e;
+  max-height: 100px;
 }
 
 .table-style {
   max-width: 200px;
-  background-color: #9ADDDF;
+  min-width: 150px;
+  background-color: #8fe3b56a;
+}
+
+.date-buttons {
+  min-width: 100px;
+}
+
+.w-10 {
+  width: 12%;
+}
+
+.w-33 {
+  width: 33.333%;
+}
+
+.divider
+{
+	position: relative;
+	margin-top: 0px;
+	height: 1px;
+}
+
+.div-transparent:before
+{
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 2%;
+	right: 2%;
+	width: 96%;
+	height: 1px;
+	background-image: linear-gradient(to right, transparent, rgb(48,49,51), transparent);
+}
+
+.btn-info {
+  background-color: rgba(211, 211, 211, 0.489);
+  color: black;
+}
+
+.btn-info:hover {
+  background-color: grey;
 }
