@@ -5,7 +5,19 @@ const app = require("./app");
 const knex = require("./db/connection");
 console.log("Pulled app and knex");
 
-app.listen(PORT, listener)
+knex.migrate
+  .latest()
+  .then((migrations) => {
+    console.log("migrations", migrations);
+    app.listen(PORT, listener);
+  })
+  .catch((error) => {
+    console.error(error);
+    console.log("error found, entering catch")
+    knex.destroy();
+  });
+
+console.log("Called knex.migrate");
 
 function listener() {
   console.log(`Listening on Port ${PORT}!`);
