@@ -13,6 +13,7 @@ knex.migrate
   })
   .catch((error) => {
     console.error(error);
+    console.log("error found, entered catch")
     knex.destroy();
   });
 
