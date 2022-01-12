@@ -2,6 +2,7 @@ const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 
+//Validates that the reservation_id exists and sets the reservation to res.locals.reservation
 async function idExists(req, res, next) {
   const reservation_id = req.params.reservation_id;
   const reservation = await service.read(reservation_id);
@@ -13,6 +14,7 @@ async function idExists(req, res, next) {
 }
 
 
+//Checks that the request has a body.data property
 async function hasBody(req, res, next) {
   if (!req.body.data) {
     next({ status: 400, message: "Request must include a body." });
@@ -21,38 +23,12 @@ async function hasBody(req, res, next) {
 }
 
 
-//Validates the status of the reservation before updating
-async function checkStatus(req, res, next) {
-  const validOptions = ["booked", "seated", "finished", "cancelled"];
-  const reservation = res.locals.reservation;
-  let message;
-
-  if (!req.body.data.status) {
-    message = "Status is unknown";
-  }
-
-  const status = req.body.data.status;
-  if (!validOptions.includes(status)) {
-    message = "Status is unknown.";
-  } else if (reservation.status === "finished") {
-    message = "Cannot update a finished reservation.";
-  }
-
-  if (message) {
-    next({ status: 400, message: message });
-  } else {
-    return next();
-  }
-}
-
-
-//Validates that all fields are present in body before creating reservation
+//Validates that all fields are present in body and have values
 async function isFieldEmpty(req, res, next) {
-  //Don't need to add "status": "booked" because default is set in database
   const reservation = req.body.data;
+  //Doesn't include 'status' because every reservation is initialized with status="booked"
   const fields = ["first_name", "last_name", "mobile_number", "reservation_date", "reservation_time", "people"];
 
-  //If any missing keys
   if (Object.keys(reservation).length < 6) {
     for (let field of fields) {
       if (!reservation[field]) {
@@ -61,7 +37,6 @@ async function isFieldEmpty(req, res, next) {
     }
   }
 
-  //If any empty properties
   for (const [key, value] of Object.entries(reservation)) {
     if (value === "") {
       next({ status: 400, message: `${key} is empty.` });
@@ -72,7 +47,7 @@ async function isFieldEmpty(req, res, next) {
 }
 
 
-//Validates that all fields fall within rules before creating reservation
+//Validates that all fields follow rules before creating/updating reservation
 async function validateFields(req, res, next) {
   const reservation = req.body.data;
   const formattedDate = reservation["reservation_date"].replace(/-/g, "").trim();
@@ -104,7 +79,32 @@ async function validateFields(req, res, next) {
 }
 
 
-//Validates that the date/time conditions are met before creating reservation
+//Validates the status of the reservation before updating
+async function checkStatus(req, res, next) {
+  const validOptions = ["booked", "seated", "finished", "cancelled"];
+  const reservation = res.locals.reservation;
+  let message;
+
+  if (!req.body.data.status) {
+    message = "Status is unknown";
+  }
+
+  const status = req.body.data.status;
+  if (!validOptions.includes(status)) {
+    message = "Status is unknown.";
+  } else if (reservation.status === "finished") {
+    message = "Cannot update a finished reservation.";
+  }
+
+  if (message) {
+    next({ status: 400, message: message });
+  } else {
+    return next();
+  }
+}
+
+
+//Validates that the date/time fall within constraints
 async function dateTimeConditions(req, res, next) {
   const date = req.body.data.reservation_date;
   const today = getToday();
@@ -128,11 +128,12 @@ async function dateTimeConditions(req, res, next) {
     const dateArray = date.split("-");
     const todayArray = today.split("-");
 
-    //ToDo: Better way to test array equality?
+    //If same-day and current time is later than reservation time
     if (todayArray[0] == dateArray[0] && todayArray[1] == dateArray[1] && todayArray[2] == dateArray[2] && currTime >= time) {
       next({ status: 400, message: "Reservations must be made for the future." });
     }
 
+    //If different days, make sure reservation is in future
     for (let index in dateArray) {
       if (todayArray[index] < dateArray[index]) {
         return next();
@@ -145,17 +146,20 @@ async function dateTimeConditions(req, res, next) {
 }
 
 
+//Creates a new reservation
 async function create(req, res) {
   const newReservation = req.body.data;
   res.status(201).json({ data: await service.create(newReservation) });
 }
 
 
+//Returns existing reservation
 async function read(req, res) {
   res.json({ data: res.locals.reservation });
 }
 
 
+//Updates and returns the whole reservation
 async function update(req, res) {
   const newReservation = {
     ...res.locals.reservation,
@@ -165,6 +169,7 @@ async function update(req, res) {
 }
 
 
+//Updates and returns only the status of the reservation
 async function updateStatus(req, res) {
   const newReservation = {
     ...res.locals.reservation,
@@ -174,6 +179,7 @@ async function updateStatus(req, res) {
 }
 
 
+//Lists all reservations with either date or mobile_number query
 async function list(req, res) {
   const { date, mobile_number } = req.query;
 
@@ -199,6 +205,7 @@ function getTime() {
   let hours = date.getHours().toString();
   let minutes = date.getMinutes().toString();
 
+  //Prepend 0 for testing '>' or '<' in dateTimeConditions()
   if (hours.length === 1) hours = "0" + hours;
   if (minutes.length === 1) minutes = "0" + minutes;
 

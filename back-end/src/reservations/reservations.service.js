@@ -27,10 +27,6 @@ async function updateStatus(newReservation) {
         .then((data) => data[0]);
 }
 
-async function destroy(reservation_id) {
-    return knex("reservations").where({ reservation_id }).del();
-}
-
 async function list(reservation_date) {
     return knex("reservations")
         .whereNot("status", "finished")
@@ -53,7 +49,6 @@ module.exports = {
     read,
     update,
     updateStatus,
-    delete: destroy,
     list,
     search,
 }

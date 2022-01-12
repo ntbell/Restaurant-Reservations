@@ -31,8 +31,6 @@ function Search() {
         setMobile_number(search);
     }
 
-
-    //Placeholder width problem
     return (
         <div>
             <ErrorAlert error={loadError} />

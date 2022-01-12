@@ -20,10 +20,11 @@ async function readReservation(reservation_id) {
         .first();
 }
 
+//Uses knex transactions to ensure table and reservation update in sync
 async function update(newReservation, newTable) {
-    return knex.transaction(function (t) {
+    return knex.transaction(function (trans) {
         return knex("reservations")
-            .transacting(t)
+            .transacting(trans)
             .where({ reservation_id: newReservation.reservation_id })
             .update(newReservation)
             .then(function () {
@@ -32,33 +33,24 @@ async function update(newReservation, newTable) {
                     .update(newTable)
                     .then((data) => data[0])
             })
-            .then(t.commit)
-            .catch(function (e) {
-                t.rollback();
-                throw new Error("Transaction error on update: " + e);
+            .then(trans.commit)
+            .catch(function (error) {
+                trans.rollback();
+                throw new Error("Transaction error on update: " + error);
             })
     });
 }
 
-async function destroy(table_id) {
-    /*
-    //Delete in controller just uses service.update
-    return knex("tables")
-        .select("reservation_id")
-        .where({ table_id })
-        .del()
-        */
-}
-
 async function list() {
-    return knex("tables").select("*").orderBy("table_name", "asc");
+    return knex("tables")
+        .select("*")
+        .orderBy("table_name", "asc");
 }
 
 module.exports = {
     create,
     read,
     update,
-    delete: destroy,
     list,
     readReservation,
 }
