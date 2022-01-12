@@ -6,7 +6,6 @@ const knex = require("./db/connection");
 console.log("Pulled app and knex");
 
 knex.migrate
-  .rollback()
   .latest()
   .then((migrations) => {
     console.log("migrations", migrations);
