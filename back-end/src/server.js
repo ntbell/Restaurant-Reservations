@@ -7,10 +7,7 @@ console.log("Pulled app and knex");
 
 knex.migrate
   .latest()
-  .then((migrations) => {
-    console.log("migrations", migrations);
-    app.listen(PORT, listener);
-  })
+  .then(app.listen(PORT, listener))
   .catch((error) => {
     console.error(error);
     console.log("error found, entered catch")
