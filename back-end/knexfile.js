@@ -54,8 +54,11 @@
    },
    production: {
      client: "postgresql",
-     pool: { min: 1, max: 10 },
-     connection: DATABASE_URL,
+     pool: { min: 1, max: 5 },
+     connection: {
+       connectionString: DATABASE_URL,
+       ssl: false
+     },
      migrations: {
        directory: path.join(__dirname, "src", "db", "migrations"),
      },
