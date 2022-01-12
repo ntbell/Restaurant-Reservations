@@ -55,7 +55,11 @@
    production: {
      client: "postgresql",
      pool: { min: 1, max: 5 },
-     connection: DATABASE_URL,
+     connection: {
+       database: 'castor.db.elephantsql.com',
+       user: 'ksrqyyrm',
+       password: 'kllDxI3wi9hMB86v7Dy1Nqqs38zEKJqh'
+     },
      migrations: {
        directory: path.join(__dirname, "src", "db", "migrations"),
      },
