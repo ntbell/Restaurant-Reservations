@@ -54,7 +54,7 @@
    },
    production: {
      client: "postgresql",
-     pool: { min: 1, max: 5 },
+     pool: { min: 1, max: 10 },
      connection: {
        database: 'castor.db.elephantsql.com',
        user: 'ksrqyyrm',
