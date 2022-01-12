@@ -57,7 +57,7 @@
      pool: { min: 1, max: 5 },
      connection: {
        connectionString: DATABASE_URL,
-       ssl: true
+       ssl: { rejectUnauthorized: false }
      },
      migrations: {
        directory: path.join(__dirname, "src", "db", "migrations"),
