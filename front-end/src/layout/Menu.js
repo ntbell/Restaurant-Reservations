@@ -20,28 +20,28 @@ function Menu() {
           </div>
         </Link>
         <hr className="sidebar-divider my-0" />
-        <ul className="nav navbar-nav text-light" id="accordionSidebar">
+        <ul className="nav navbar-nav" id="accordionSidebar">
           <li className="nav-item">
-            <Link className="nav-link" to="/dashboard">
-              <span className="oi oi-dashboard" />
+            <Link className="nav-link text-white" to="/dashboard">
+              <span className="oi oi-dashboard text-white" />
               &nbsp;Dashboard
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/search">
-              <span className="oi oi-magnifying-glass" />
+            <Link className="nav-link text-white" to="/search">
+              <span className="oi oi-magnifying-glass text-white" />
               &nbsp;Search
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/reservations/new">
-              <span className="oi oi-plus" />
+            <Link className="nav-link text-white" to="/reservations/new">
+              <span className="oi oi-plus text-white" />
               &nbsp;New Reservation
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/tables/new">
-              <span className="oi oi-layers" />
+            <Link className="nav-link text-white" to="/tables/new">
+              <span className="oi oi-layers text-white" />
               &nbsp;New Table
             </Link>
           </li>

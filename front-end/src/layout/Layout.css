@@ -16,7 +16,7 @@ p {
 }
 
 .table-style {
-  background-color: #a0dac8;
+  background-color: #97d6df;
   max-width: 200px;
   min-width: 150px;
 }
@@ -86,7 +86,8 @@ p {
 }
 
 .res-bg {
-  background-color: #97d6df;
+  background-color: #a0dac8;
+  
 }
 
 .form-control {
