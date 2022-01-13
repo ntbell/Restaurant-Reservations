@@ -2,7 +2,6 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { previous, next } from "../utils/date-time";
 
-
 function DateButtons({ date }) {
     const history = useHistory();
     const previousDay = () => history.push(`/dashboard?date=${previous(date)}`);

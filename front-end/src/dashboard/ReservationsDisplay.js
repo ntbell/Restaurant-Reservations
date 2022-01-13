@@ -2,13 +2,11 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { updateReservationStatus } from "../utils/api";
 
-//ToDo: Implement mobile view
 function ReservationsDisplay({ reservations, reload, setLoadError }) {
     const history = useHistory();
 
     const askConfirmation = async (reservation) => {
         const reservation_id = reservation.reservation_id;
-
         if (window.confirm("Do you want to cancel this reservation? This cannot be undone.")) {
             setLoadError(null);
             updateReservationStatus(reservation_id, "cancelled").then(reload).catch(setLoadError);

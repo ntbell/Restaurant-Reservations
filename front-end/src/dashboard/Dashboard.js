@@ -39,7 +39,7 @@ function Dashboard({ date }) {
       <ErrorAlert error={loadError} />
       <div className="d-md-flex flex-column mb-2">
         <h1 className="text-center"><u>Dashboard</u></h1>
-        <h4 className=" mb-0 text-center">Reservations</h4>
+        <h3 className=" mb-0 text-center">Reservations</h3>
         <h3 className="text-center">{date}</h3>
         <DateButtons date={date} />
         {reservations.length > 0 ?

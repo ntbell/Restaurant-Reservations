@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom"
-import { listTables, readReservation, seatReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationsDisplay from "../dashboard/ReservationsDisplay";
-
+import { listTables, readReservation, seatReservation } from "../utils/api";
 
 function SeatReservation() {
     const history = useHistory();
@@ -56,9 +55,9 @@ function SeatReservation() {
                     Table number: 
                     <select className="ml-2" name="table_id" value={tableId} onChange={changeHandler}>
                         {tables ?
-                            tables.map((table) => (
-                                <option key={table.table_id} value={table.table_id}>{table.table_name} - {table.capacity}</option>
-                            )) : (null)}
+                            tables.map((table) => 
+                                (<option key={table.table_id} value={table.table_id}>{table.table_name} - {table.capacity}</option>)
+                            ) : (null)}
                     </select>
                 </label>
                 <div className="form-row ml-2 mt-2 mb-4">

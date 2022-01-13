@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { createTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import TableForm from "./TableForm";
+import { createTable } from "../utils/api";
 
 function TableCreate({ table, setTable, onSubmit }) {
     const history = useHistory();

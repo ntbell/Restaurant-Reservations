@@ -12,7 +12,7 @@
 }
 
 .table-style {
-  background-color: #8fe3b56a;
+  background-color: #a0dac8;
   max-width: 200px;
   min-width: 150px;
 }
@@ -81,7 +81,7 @@
 }
 
 .res-bg {
-  background-color: #89ced97e;
+  background-color: #97d6df;
 }
 
 .form-control {
@@ -97,8 +97,6 @@
   }
 
   .res-container {
-    display: flex;
-    flex-direction: row;
     justify-content: space-between;
   }
 
