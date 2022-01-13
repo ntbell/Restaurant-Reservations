@@ -18,13 +18,13 @@ A restaurant reservation system designed to display, manage, and pair together r
 
 ## Testing
 
-`npm test` runs all tests,
-`npm run test:X` runs test X
-`npm run test:backend` runs all backend tests
-`npm run test:frontend` runs all frontend tests
-`npm run test:X:backend` runs only the backend test X
-`npm run test:X:frontend` runs only the frontend test X
-`npm run test:e2e` runs only the end-to-end tests
+* `npm test` runs all tests,
+* `npm run test:X` runs test X
+* `npm run test:backend` runs all backend tests
+* `npm run test:frontend` runs all frontend tests
+* `npm run test:X:backend` runs only the backend test X
+* `npm run test:X:frontend` runs only the frontend test X
+* `npm run test:e2e` runs only the end-to-end tests
 
 ## API Documentation
 
@@ -63,19 +63,21 @@ A restaurant reservation system designed to display, manage, and pair together r
 
   **PUT** - Updates the table to reference the reservation and updates the reservation to `status: "seated"`
   
-  **DELETE** - Updates the reservation to `status: "finished" and the table's reference to the reservation to `reservation_id: null`
+  **DELETE** - Updates the reservation to `status: "finished"` and the table's reference to the reservation to `reservation_id: null`
 
 
 ## Screenshots
 
+### Dashboard view
 ![Dashboard example](/front-end/screenshots/us-08-edit-reservation-submit-after.png "Dashboard view")
 
+### Seating action
 ![Seating example 1, post-seat-click](/front-end/screenshots/us-04-seat-capacity-reservation-submit-before.png "Seating action")
 
+### Banner alerts for input validation
 ![Seating example 2, banner alert](/front-end/screenshots/us-04-seat-capacity-reservation-submit-after.png "Banner alerts for input validation")
 
-![Seating example 3, post-seat-submit](/front-end/screenshots/us-04-seat-reservation-submit-after.png "Dashboard after seating")
-
+### Form example - Editing reservation
 ![Form example](/front-end/screenshots/us-08-edit-reservation-cancel-before.png "Form example - Editing reservation")
 
 ## Technology
