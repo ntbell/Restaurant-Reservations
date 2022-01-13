@@ -25,7 +25,7 @@ function ReservationForm({
         event.preventDefault();
         event.stopPropagation();
         onSubmit(reservation);
-    }    
+    }
 
     return (
         <form onSubmit={submitHandler}>

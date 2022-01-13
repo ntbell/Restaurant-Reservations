@@ -35,7 +35,7 @@ function SeatReservation() {
     function submitHandler(event) {
         event.preventDefault();
         setError(null);
-        
+
         seatReservation(reservation_id, tableId)
             .then(() => history.push("/dashboard"))
             .catch(setError)
@@ -46,16 +46,16 @@ function SeatReservation() {
     }
 
     return (
-        <div>
+        <main>
             <ErrorAlert error={error} />
-            <h4 className="m-2">Seating reservation: </h4>
+            <h2 className="m-2">Seating reservation: </h2>
             {reservation ? <ReservationsDisplay reservations={[reservation]} /> : null}
             <form onSubmit={submitHandler}>
                 <label className="m-2">
-                    Table number: 
+                    Table number:
                     <select className="ml-2" name="table_id" value={tableId} onChange={changeHandler}>
                         {tables ?
-                            tables.map((table) => 
+                            tables.map((table) =>
                                 (<option key={table.table_id} value={table.table_id}>{table.table_name} - {table.capacity}</option>)
                             ) : (null)}
                     </select>
@@ -67,9 +67,9 @@ function SeatReservation() {
                     <button type="submit" className="btn btn-sm btn-primary rounded">
                         <span className="oi oi-check" /> Submit
                     </button>
-                </div> 
+                </div>
             </form>
-        </div>
+        </main>
     );
 }
 

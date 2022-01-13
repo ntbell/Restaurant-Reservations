@@ -19,10 +19,11 @@ function ReservationCreate({ reservation, setReservation, onSubmit }) {
     }
 
     return (
-        <div>
+        <main>
             <ErrorAlert error={error} />
+            <h2 className="text-center"><u>New Reservation</u></h2>
             <ReservationForm reservation={reservation} setReservation={setReservation} onSubmit={submitHandler}>
-                <div>
+                <div role="group">
                     <button type="button" className="btn btn-sm btn-secondary rounded" onClick={onCancel}>
                         <span className="oi oi-x" /> Cancel
                     </button>
@@ -31,7 +32,7 @@ function ReservationCreate({ reservation, setReservation, onSubmit }) {
                     </button>
                 </div>
             </ReservationForm>
-        </div>
+        </main>
     );
 }
 

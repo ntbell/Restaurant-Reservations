@@ -32,8 +32,9 @@ function Search() {
     }
 
     return (
-        <div>
+        <main>
             <ErrorAlert error={loadError} />
+            <h2 className="text-center"><u>Search</u></h2>
             {mobile_number && reservations.length === 0 ? (<h4 className="alert alert-danger text-center">No reservations found</h4>) : (null)}
             <div className="d-flex justify-content-center justify-content-md-start">
                 <form onSubmit={submitHandler}>
@@ -50,7 +51,7 @@ function Search() {
                 </form>
             </div>
             <ReservationsDisplay reservations={reservations} reload={loadReservations} setLoadError={setLoadError} />
-        </div>
+        </main>
     );
 }
 

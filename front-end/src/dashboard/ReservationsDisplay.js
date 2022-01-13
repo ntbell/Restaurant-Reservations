@@ -16,7 +16,7 @@ function ReservationsDisplay({ reservations, reload, setLoadError }) {
     const checkStatus = (reservation) => reservation.status === "booked" ? (false) : (true);
 
     const formattedReservations = reservations.map((reservation) => (
-        <div key={reservation.reservation_id} className="res-container res-bg border border-dark rounded m-2">
+        <div key={reservation.reservation_id} role="listitem" className="res-container res-bg border border-dark rounded m-2">
             <p className="res-components"><u>First Name</u><span>{reservation.first_name}</span></p>
             <p className="res-components"><u>Last Name</u><span>{reservation.last_name}</span></p>
             <p className="res-components"><u>Mobile Number</u><span>{reservation.mobile_number}</span></p>
@@ -27,7 +27,7 @@ function ReservationsDisplay({ reservations, reload, setLoadError }) {
                 data-reservation-id-status={reservation.reservation_id}>
                 <u>Status</u><span>{reservation.status}</span>
             </p>
-            <div className="res-buttons">
+            <div role="group" className="res-buttons">
                 <button
                     type="button"
                     className="btn btn-light btn-block m-0"
@@ -56,7 +56,7 @@ function ReservationsDisplay({ reservations, reload, setLoadError }) {
         </div>
     ));
 
-    return (<>{formattedReservations}</>);
+    return (<section role="list">{formattedReservations}</section>);
 }
 
 export default ReservationsDisplay;

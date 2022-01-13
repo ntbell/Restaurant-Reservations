@@ -12,7 +12,7 @@ function TablesDisplay({ tables, loadDashboard, setLoadError }) {
     }
 
     const formattedTables = tables.map((table) => (
-        <div key={table.table_id} className="d-flex flex-column justify-content-between border border-dark rounded table-style m-2">
+        <div key={table.table_id} role="listitem" className="d-flex flex-column justify-content-between border border-dark rounded table-style m-2">
             <p className="p-1 h-25 text-center">Table Name: {table.table_name}</p>
             <p className="p-1 h-25 text-center">Capacity: {table.capacity}</p>
             <div className="divider div-transparent"></div>
@@ -31,7 +31,7 @@ function TablesDisplay({ tables, loadDashboard, setLoadError }) {
         </div>
     ));
 
-    return (<div className="d-flex flex-row flex-wrap">{formattedTables}</div>);
+    return (<section role="list" className="d-flex flex-row flex-wrap">{formattedTables}</section>);
 }
 
 export default TablesDisplay;
