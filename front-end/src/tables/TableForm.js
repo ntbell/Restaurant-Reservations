@@ -49,7 +49,7 @@ function TableForm({
                     onChange={changeHandler}
                 />
             </div>
-            <div className="form-row ml-0 mt-4">{children}</div>
+            <div className="form-row ml-0 my-4">{children}</div>
         </form>
     );
 }

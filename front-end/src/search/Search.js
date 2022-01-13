@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import ReservationsDisplay from "./ReservationsDisplay";
-import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import ReservationsDisplay from "../dashboard/ReservationsDisplay";
+import { listReservations } from "../utils/api";
 
 function Search() {
     const [mobile_number, setMobile_number] = useState("");
@@ -35,18 +35,20 @@ function Search() {
         <div>
             <ErrorAlert error={loadError} />
             {mobile_number && reservations.length === 0 ? (<h4 className="alert alert-danger text-center">No reservations found</h4>) : (null)}
-            <form onSubmit={submitHandler}>
-                <label className="m-2">Search: </label>
-                <input
-                    className="search-input my-2"
-                    id="mobile_number"
-                    name="mobile_number"
-                    placeholder="Enter a customer's phone number"
-                    value={search}
-                    onChange={changeHandler}
-                />
-                <button type="submit">Find</button>
-            </form>
+            <div className="d-flex justify-content-center justify-content-md-start">
+                <form onSubmit={submitHandler}>
+                    <label className="m-2">Search: </label>
+                    <input
+                        className="search-input my-2"
+                        id="mobile_number"
+                        name="mobile_number"
+                        placeholder="Enter a customer's phone number"
+                        value={search}
+                        onChange={changeHandler}
+                    />
+                    <button type="submit">Find</button>
+                </form>
+            </div>
             <ReservationsDisplay reservations={reservations} reload={loadReservations} setLoadError={setLoadError} />
         </div>
     );

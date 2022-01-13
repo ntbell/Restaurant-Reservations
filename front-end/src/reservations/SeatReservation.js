@@ -61,7 +61,7 @@ function SeatReservation() {
                             )) : (null)}
                     </select>
                 </label>
-                <div className="form-row ml-2 mt-2">
+                <div className="form-row ml-2 mt-2 mb-4">
                     <button type="button" className="btn btn-sm btn-secondary rounded" onClick={onCancel}>
                         <span className="oi oi-x" /> Cancel
                     </button>

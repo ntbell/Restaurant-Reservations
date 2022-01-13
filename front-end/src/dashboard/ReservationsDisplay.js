@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { updateReservationStatus } from "../utils/api";
 
+//ToDo: Implement mobile view
 function ReservationsDisplay({ reservations, reload, setLoadError }) {
     const history = useHistory();
 
@@ -16,19 +17,19 @@ function ReservationsDisplay({ reservations, reload, setLoadError }) {
 
     const checkStatus = (reservation) => reservation.status === "booked" ? (false) : (true);
 
-    return reservations.map((reservation) => (
-        <div key={reservation.reservation_id} className="d-flex flex-row justify-content-between border border-dark rounded reservation-style m-2">
-            <p className="p-2 w-10 d-flex flex-column text-center"><u>First Name</u><span>{reservation.first_name}</span></p>
-            <p className="p-2 w-10 d-flex flex-column text-center"><u>Last Name</u><span>{reservation.last_name}</span></p>
-            <p className="p-2 w-10 d-flex flex-column text-center"><u>Mobile Number</u><span>{reservation.mobile_number}</span></p>
-            <p className="p-2 w-10 d-flex flex-column text-center"><u>Date</u><span>{reservation.reservation_date}</span></p>
-            <p className="p-2 w-10 d-flex flex-column text-center"><u>Time</u><span>{reservation.reservation_time}</span></p>
-            <p className="p-2 w-10 d-flex flex-column text-center"><u>People</u><span>{reservation.people}</span></p>
-            <p className="p-2 w-10 d-flex flex-column text-center"
+    const formattedReservations = reservations.map((reservation) => (
+        <div key={reservation.reservation_id} className="res-container res-bg border border-dark rounded m-2">
+            <p className="res-components"><u>First Name</u><span>{reservation.first_name}</span></p>
+            <p className="res-components"><u>Last Name</u><span>{reservation.last_name}</span></p>
+            <p className="res-components"><u>Mobile Number</u><span>{reservation.mobile_number}</span></p>
+            <p className="res-components"><u>Date</u><span>{reservation.reservation_date}</span></p>
+            <p className="res-components"><u>Time</u><span>{reservation.reservation_time}</span></p>
+            <p className="res-components"><u>People</u><span>{reservation.people}</span></p>
+            <p className="res-components"
                 data-reservation-id-status={reservation.reservation_id}>
                 <u>Status</u><span>{reservation.status}</span>
             </p>
-            <div className="pl-2 w-10">
+            <div className="res-buttons">
                 <button
                     type="button"
                     className="btn btn-sm btn-light btn-block m-0"
@@ -56,6 +57,8 @@ function ReservationsDisplay({ reservations, reload, setLoadError }) {
             </div>
         </div>
     ));
+
+    return (<>{formattedReservations}</>);
 }
 
 export default ReservationsDisplay;

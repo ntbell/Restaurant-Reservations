@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
 import ReservationCreate from "../reservations/ReservationCreate";
 import TableCreate from "../tables/TableCreate";
 import SeatReservation from "../reservations/SeatReservation";
-import Search from "../dashboard/Search";
-import EditReservation from "../dashboard/EditReservation";
+import Search from "../search/Search";
+import EditReservation from "../reservations/EditReservation";
 import { today } from "../utils/date-time";
-import { useLocation } from 'react-router-dom';
-
-const useQuery = () => new URLSearchParams(useLocation().search);
+import useQuery from "../utils/useQuery";
 
 const initialReservation = {
   first_name: "",
@@ -36,12 +33,8 @@ const initialTable = {
  * @returns {JSX.Element}
  */
 function Routes() {
-  //Pulls the query from the url.  ex. /dashboard?date=2021-01-01 returns 2021-01-01
   const query = useQuery();
   const date = query.get("date") || today();
-
-  //ToDo: Implement next and previous for days
-  //use utils/date-time for implementation
   const history = useHistory();
   const [reservation, setReservation] = useState({ ...initialReservation });
   const [table, setTable] = useState({ ...initialTable });
@@ -68,7 +61,7 @@ function Routes() {
         <Redirect to={"/dashboard"} />
       </Route>
       <Route path="/dashboard">
-        <Dashboard date={date} table={table} key={document.location.href} />
+        <Dashboard date={date} key={document.location.href} />
       </Route>
       <Route path="/search">
         <Search />

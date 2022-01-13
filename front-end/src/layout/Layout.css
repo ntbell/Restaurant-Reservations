@@ -11,27 +11,19 @@
   border-radius: 0;
 }
 
-.reservation-style {
-  background-color: #89ced97e;
-  max-height: 100px;
-}
-
 .table-style {
+  background-color: #8fe3b56a;
   max-width: 200px;
   min-width: 150px;
-  background-color: #8fe3b56a;
-}
-
-.date-buttons {
-  min-width: 100px;
-}
-
-.w-10 {
-  width: 12%;
 }
 
 .w-33 {
   width: 33.333%;
+}
+
+.date-buttons {
+  width: 33.333%;
+  min-width: 100px;
 }
 
 .divider
@@ -60,4 +52,52 @@
 
 .btn-info:hover {
   background-color: grey;
+}
+
+.res-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.res-components {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  text-align: center;
+  margin-bottom: 2;
+}
+
+.res-buttons {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 0;
+  margin-top: 0;
+  width: 100%;
+}
+
+.res-bg {
+  background-color: #89ced97e;
+}
+
+@media screen and (min-width: 768px) {
+
+  .res-components {
+    width: 12%;
+    margin-bottom: 0;
+    margin-left: 0;
+  }
+
+  .res-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .res-buttons {
+    width: 12%;
+  }
 }
