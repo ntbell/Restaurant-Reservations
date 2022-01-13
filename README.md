@@ -6,7 +6,7 @@
 
 A restaurant reservation system designed to display, manage, and pair together reservations and tables. The software is used only by restaurant personnel when a customer calls to request a reservation. At this point, the customers will not access the system online.
 
-### Installation Instructions
+## Installation Instructions
 
 1. Fork and clone this repository.
 2. Run cp ./back-end/.env.sample ./back-end/.env.
@@ -16,7 +16,7 @@ A restaurant reservation system designed to display, manage, and pair together r
 6. Run npm install to install project dependencies.
 7. Run npm run start:dev to start your server in development mode.
 
-### Testing
+## Testing
 
 `npm test` runs all tests,
 `npm run test:X` runs test X
@@ -26,43 +26,59 @@ A restaurant reservation system designed to display, manage, and pair together r
 `npm run test:X:frontend` runs only the frontend test X
 `npm run test:e2e` runs only the end-to-end tests
 
-### API Documentation
+## API Documentation
 
-`/reservations`
-  **GET** - Given a query `/reservations?date=yyyy-mm-dd` or `/reservations?mobile_number=xxx-xxx-xxxx`, returns all reservations with matching data.
+### `/reservations`
+
+  **GET** - Given a query `/reservations?date=yyyy-mm-dd` or `/reservations?mobile_number=xxx-xxx-xxxx`, returns all reservations with the matching property
+  
   **POST** - Creates a new reservation
+  
 
-`/reservations/:reservation_id`
+### `/reservations/:reservation_id`
+
   **GET** - Retrieves the reservation by id
+  
   **PUT** - Updates the reservation
 
-`/reservations/:reservation_id/status`
-  **PUT** - Updates the status of the reservation to `seated` `finished`, or `cancelled`
 
-`/tables`
+### `/reservations/:reservation_id/status`
+
+  **PUT** - Updates the status of the reservation to `seated` `finished`, or `cancelled`
+  
+  
+### `/tables`
+
   **GET** - Retrieves all tables
+  
   **POST** - Creates a new table
 
-`/tables/:table_id`
+
+### `/tables/:table_id`
+
   **GET** - Retrieves the table by id
 
-`/tables/:table_id/seat`
+
+### `/tables/:table_id/seat`
+
   **PUT** - Updates the table to reference the reservation and updates the reservation to `status: "seated"`
+  
   **DELETE** - Updates the reservation to `status: "finished" and the table's reference to the reservation to `reservation_id: null`
 
-### Screenshots
 
-![Dashboard example](./front-end/.screenshots/us-08-edit-reservation-submit-after.png?raw=true "Dashboard view")
+## Screenshots
 
-![Seating example 1, post-seat-click](./front-end/.screenshots/us-04-seat-capacity-reservation-submit-before.png?raw=true "Seating action")
+![Dashboard example](/front-end/.screenshots/us-08-edit-reservation-submit-after.png?raw=true "Dashboard view")
 
-![Seating example 2, banner alert](./front-end/.screenshots/us-04-seat-capacity-reservation-submit-after.png?raw=true "Banner alerts for input validation")
+![Seating example 1, post-seat-click](/front-end/.screenshots/us-04-seat-capacity-reservation-submit-before.png?raw=true "Seating action")
 
-![Seating example 3, post-seat-submit](./front-end/.screenshots/us-04-seat-reservation-submit-after.png?raw=true "Dashboard after seating")
+![Seating example 2, banner alert](/front-end/.screenshots/us-04-seat-capacity-reservation-submit-after.png?raw=true "Banner alerts for input validation")
 
-![Form example](./front-end/.screenshots/us-08-edit-reservation-cancel-before.png?raw=true "Form example - Editing reservation")
+![Seating example 3, post-seat-submit](/front-end/.screenshots/us-04-seat-reservation-submit-after.png?raw=true "Dashboard after seating")
 
-### Technology
+![Form example](/front-end/.screenshots/us-08-edit-reservation-cancel-before.png?raw=true "Form example - Editing reservation")
+
+## Technology
 
 This project is a full-stack app developed using React.js, CSS, Node.js, Express, and PostgreSQL.
 
