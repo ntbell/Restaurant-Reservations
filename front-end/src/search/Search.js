@@ -37,7 +37,7 @@ function Search() {
             {mobile_number && reservations.length === 0 ? (<h4 className="alert alert-danger text-center">No reservations found</h4>) : (null)}
             <div className="d-flex justify-content-center justify-content-md-start">
                 <form onSubmit={submitHandler}>
-                    <label className="m-2">Search: </label>
+                    <label className="m-1">Search:</label>
                     <input
                         className="search-input my-2"
                         id="mobile_number"

@@ -37,7 +37,7 @@ function Dashboard({ date }) {
   return (
     <main className="bg-light">
       <ErrorAlert error={loadError} />
-      <div className="d-md-flex flex-column my-2">
+      <div className="d-md-flex flex-column mb-2">
         <h1 className="text-center"><u>Dashboard</u></h1>
         <h4 className=" mb-0 text-center">Reservations</h4>
         <h3 className="text-center">{date}</h3>

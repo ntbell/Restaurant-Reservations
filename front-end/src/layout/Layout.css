@@ -4,7 +4,7 @@
 }
 
 .search-input {
-  width: 250px;
+  width: auto;
 }
 
 .btn-primary, .btn-secondary, .btn-light {
@@ -59,6 +59,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+  align-items: center;
 }
 
 .res-components {
@@ -66,27 +67,32 @@
   flex-direction: column;
   width: 35%;
   text-align: center;
-  margin-bottom: 2;
+  margin-top: 10px;
+  margin-bottom: 0;
 }
 
 .res-buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   text-align: center;
   margin-bottom: 0;
-  margin-top: 0;
   width: 100%;
+  margin-top: 15px;
 }
 
 .res-bg {
   background-color: #89ced97e;
 }
 
+.form-control {
+  text-align: center;
+}
+
 @media screen and (min-width: 768px) {
 
   .res-components {
     width: 12%;
-    margin-bottom: 0;
+    margin-top: 0;
     margin-left: 0;
   }
 
@@ -94,10 +100,19 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
   }
 
   .res-buttons {
+    flex-direction: column;
     width: 12%;
+    margin-top: 0;
+  }
+
+  .form-control {
+    text-align: left;
+  }
+
+  .search-input {
+    width: 250px;
   }
 }
