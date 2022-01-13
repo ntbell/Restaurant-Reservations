@@ -68,15 +68,15 @@ A restaurant reservation system designed to display, manage, and pair together r
 
 ## Screenshots
 
-![Dashboard example](/front-end/.screenshots/us-08-edit-reservation-submit-after.png?raw=true "Dashboard view")
+![Dashboard example](/front-end/.screenshots/us-08-edit-reservation-submit-after.png "Dashboard view")
 
-![Seating example 1, post-seat-click](/front-end/.screenshots/us-04-seat-capacity-reservation-submit-before.png?raw=true "Seating action")
+![Seating example 1, post-seat-click](/front-end/.screenshots/us-04-seat-capacity-reservation-submit-before.png "Seating action")
 
-![Seating example 2, banner alert](/front-end/.screenshots/us-04-seat-capacity-reservation-submit-after.png?raw=true "Banner alerts for input validation")
+![Seating example 2, banner alert](/front-end/.screenshots/us-04-seat-capacity-reservation-submit-after.png "Banner alerts for input validation")
 
-![Seating example 3, post-seat-submit](/front-end/.screenshots/us-04-seat-reservation-submit-after.png?raw=true "Dashboard after seating")
+![Seating example 3, post-seat-submit](/front-end/.screenshots/us-04-seat-reservation-submit-after.png "Dashboard after seating")
 
-![Form example](/front-end/.screenshots/us-08-edit-reservation-cancel-before.png?raw=true "Form example - Editing reservation")
+![Form example](/front-end/.screenshots/us-08-edit-reservation-cancel-before.png "Form example - Editing reservation")
 
 ## Technology
 
