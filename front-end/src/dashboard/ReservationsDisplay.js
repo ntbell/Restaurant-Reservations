@@ -32,7 +32,7 @@ function ReservationsDisplay({ reservations, reload, setLoadError }) {
             <div className="res-buttons">
                 <button
                     type="button"
-                    className="btn btn-sm btn-light btn-block m-0"
+                    className="btn btn-light btn-block m-0"
                     href={`/reservations/${reservation.reservation_id}/edit`}
                     disabled={checkStatus(reservation)}
                     onClick={() => history.push(`/reservations/${reservation.reservation_id}/edit`)}>
@@ -41,7 +41,7 @@ function ReservationsDisplay({ reservations, reload, setLoadError }) {
                 {reservation.status === "booked" ?
                     <button
                         type="button"
-                        className="btn btn-sm btn-primary btn-block m-0"
+                        className="btn btn-primary btn-block m-0"
                         href={`/reservations/${reservation.reservation_id}/seat`}
                         disabled={checkStatus(reservation)}
                         onClick={() => history.push(`/reservations/${reservation.reservation_id}/seat`)}>
@@ -49,7 +49,7 @@ function ReservationsDisplay({ reservations, reload, setLoadError }) {
                     </button> : (null)}
                 <button
                     type="button"
-                    className="btn btn-sm btn-secondary btn-block m-0"
+                    className="btn btn-secondary btn-block m-0"
                     data-reservation-id-cancel={reservation.reservation_id}
                     onClick={() => askConfirmation(reservation)}>
                     Cancel
