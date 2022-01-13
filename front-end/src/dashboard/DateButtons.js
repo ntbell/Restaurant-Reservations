@@ -8,7 +8,7 @@ function DateButtons({ date }) {
     const nextDay = () => history.push(`/dashboard?date=${next(date)}`);
 
     return (
-        <div className="text-center mx-2 mb-2">
+        <div role="group" className="text-center mx-2 mb-2">
             <button className="btn btn-sm btn-info border border-dark date-buttons" onClick={previousDay}>
                 <span className="oi oi-arrow-left" />
                 &nbsp;Previous

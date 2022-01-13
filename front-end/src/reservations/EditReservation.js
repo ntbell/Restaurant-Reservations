@@ -38,7 +38,6 @@ function EditReservation() {
     return (
         <main>
             <ErrorAlert error={error} />
-            <h2 className="text-center"><u>Edit Reservation</u></h2>
             {reservation ?
                 <ReservationForm reservation={reservation} setReservation={setReservation} onSubmit={submitHandler}>
                     <div>

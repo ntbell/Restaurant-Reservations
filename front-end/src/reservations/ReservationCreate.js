@@ -21,7 +21,6 @@ function ReservationCreate({ reservation, setReservation, onSubmit }) {
     return (
         <main>
             <ErrorAlert error={error} />
-            <h2 className="text-center"><u>New Reservation</u></h2>
             <ReservationForm reservation={reservation} setReservation={setReservation} onSubmit={submitHandler}>
                 <div role="group">
                     <button type="button" className="btn btn-sm btn-secondary rounded" onClick={onCancel}>

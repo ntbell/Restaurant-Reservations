@@ -21,7 +21,6 @@ function TableCreate({ table, setTable, onSubmit }) {
     return (
         <main>
             <ErrorAlert error={error} />
-            <h2 className="text-center"><u>New Table</u></h2>
             <TableForm table={table} setTable={setTable} onSubmit={submitHandler}>
                 <div role="group">
                     <button type="button" className="btn btn-sm btn-secondary rounded" onClick={onCancel}>
