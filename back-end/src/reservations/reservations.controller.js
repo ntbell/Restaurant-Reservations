@@ -110,8 +110,8 @@ async function dateTimeConditions(req, res, next) {
   const today = getToday();
 
   //If date is a Tuesday -- Restaurant closed
-  const day = new Date(date).getDay();
-  if (day === 1) {
+  const day = new Date(date).getUTCDay();
+  if (day === 2) {
     next({ status: 400, message: "Restaurant is closed on Tuesdays." });
   }
 
